@@ -79,10 +79,13 @@ RUN mkdir -p /nonexistent && \
 RUN chmod +x docker/entrypoint.sh
 RUN chmod +x docker/prod_entrypoint.sh
 
-# Run Prisma generate as user = nobody
-USER nobody
-
+# Run Prisma generate as root first (to avoid npm permission issues in cross-platform builds)
+# Set binary target for cross-platform builds
+ENV PRISMA_CLI_BINARY_TARGETS="linux-musl,debian-openssl-1.1.x,debian-openssl-3.0.x"
 RUN prisma generate
+
+# Then switch to nobody user
+USER nobody
 ### End of Prisma Handling for Non-Root #########################################
 
 EXPOSE 4000/tcp

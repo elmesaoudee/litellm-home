@@ -63,8 +63,8 @@ while retry_count < max_retries and exit_code != 0:
     verbose_proxy_logger.info(f"Attempt {retry_count}...")
 
     # run prisma generate
-    verbose_proxy_logger.info("Running 'prisma generate'...")
-    result = subprocess.run(["prisma", "generate"], capture_output=True, text=True)
+    verbose_proxy_logger.info("Running 'prisma generate --no-engine'...")
+    result = subprocess.run(["prisma", "generate", "--no-engine"], capture_output=True, text=True)
     verbose_proxy_logger.info(
         f"'prisma generate' stdout: {result.stdout}"
     )  # Log stdout
